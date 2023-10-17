@@ -1,4 +1,4 @@
-import throttle from 'lodash';
+import throttle from 'lodash.throttle';
 
 const feedbackForm = document.querySelector('.feedback-form');
 const inputForm = document.querySelector('input');
@@ -7,8 +7,6 @@ const textareaForm = document.querySelector('textarea');
 const LS_key = "feedback-form-state";
     
 let formInfo = {};
-
-restoreForm();
 
 feedbackForm.addEventListener('input', throttle(handlerInput, 500));
 feedbackForm.addEventListener('submit', handlerSubmit);
@@ -26,17 +24,19 @@ function handlerSubmit(event) {
 }
 
 function restoreForm() {
-    const savedData = JSON.parse(localStorage.getItem(LS_key));
-    if (savedData) {
-        const { email, message } = savedData;
+    const savedInfo = JSON.parse(localStorage.getItem(LS_key));
+    if (savedInfo) {
+        const { email, text } = savedInfo;
         if (email) {            
             inputForm.value = email;
             formInfo.email = email;     
         
         }
-        if (message) {
-            textareaForm.value = message;
-            formInfo.message = message;  
+        if (text) {
+            textareaForm.value = text;
+            formInfo.text = text;  
         }
     }    
 }
+
+restoreForm();
